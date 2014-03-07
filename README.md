@@ -1,0 +1,1 @@
+A chess program that will provide features not typically found in other similar applications.  Several features will be provided that will allow users to improve their skills.
