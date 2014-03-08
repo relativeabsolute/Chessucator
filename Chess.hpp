@@ -127,6 +127,7 @@ namespace Chess {
         size_t moveIndex;
         void addPiece(Piece *p, size_t index);
         void updateHighlightVector();
+        void loadPieces();
 
         /*
         This array has a very specific order:

@@ -110,21 +110,24 @@ std::ostream &Chess::operator <<(std::ostream& stream, const Game& p) {
     return stream;
 }
 
+void Game::loadPieces() {
+    pieceTextures[(size_t) PieceType::PAWN_TYPE][0] = IMG_LoadTexture(renderer, "Chess Set - Pawn Black.png");
+    pieceTextures[(size_t) PieceType::PAWN_TYPE][1] = IMG_LoadTexture(renderer, "Chess Set - Pawn White.png");
+    pieceTextures[(size_t) PieceType::BISHOP_TYPE][0] = IMG_LoadTexture(renderer, "Chess Set - Bishop Black.png");
+    pieceTextures[(size_t) PieceType::BISHOP_TYPE][1] = IMG_LoadTexture(renderer, "Chess Set - Bishop White.png");
+    pieceTextures[(size_t) PieceType::ROOK_TYPE][0] = IMG_LoadTexture(renderer, "Chess Set - Rook Black.png");
+    pieceTextures[(size_t) PieceType::ROOK_TYPE][1] = IMG_LoadTexture(renderer, "Chess Set - Rook White.png");
+    pieceTextures[(size_t) PieceType::KNIGHT_TYPE][0] = IMG_LoadTexture(renderer, "Chess Set - Knight Black.png");
+    pieceTextures[(size_t) PieceType::KNIGHT_TYPE][1] = IMG_LoadTexture(renderer, "Chess Set - Knight White.png");
+    pieceTextures[(size_t) PieceType::QUEEN_TYPE][0] = IMG_LoadTexture(renderer, "Chess Set - Queen Black.png");
+    pieceTextures[(size_t) PieceType::QUEEN_TYPE][1] = IMG_LoadTexture(renderer, "Chess Set - Queen White.png");
+    pieceTextures[(size_t)PieceType::KING_TYPE][0] = IMG_LoadTexture(renderer, "Chess Set - King Black.png");
+    pieceTextures[(size_t)PieceType::KING_TYPE][1] = IMG_LoadTexture(renderer, "Chess Set - King Black.png");
+}
+
 Game::Game(SDL_Renderer *r)
 : needsUpdate(true), renderer(r), moveIndex(0), justMoved(nullptr) {
-    pieceTextures[(size_t) PieceType::PAWN_TYPE][0] = IMG_LoadTexture(r, "Chess Set - Pawn Black.png");
-    pieceTextures[(size_t) PieceType::PAWN_TYPE][1] = IMG_LoadTexture(r, "Chess Set - Pawn White.png");
-    pieceTextures[(size_t) PieceType::BISHOP_TYPE][0] = IMG_LoadTexture(r, "Chess Set - Bishop Black.png");
-    pieceTextures[(size_t) PieceType::BISHOP_TYPE][1] = IMG_LoadTexture(r, "Chess Set - Bishop White.png");
-    pieceTextures[(size_t) PieceType::ROOK_TYPE][0] = IMG_LoadTexture(r, "Chess Set - Rook Black.png");
-    pieceTextures[(size_t) PieceType::ROOK_TYPE][1] = IMG_LoadTexture(r, "Chess Set - Rook White.png");
-    pieceTextures[(size_t) PieceType::KNIGHT_TYPE][0] = IMG_LoadTexture(r, "Chess Set - Knight Black.png");
-    pieceTextures[(size_t) PieceType::KNIGHT_TYPE][1] = IMG_LoadTexture(r, "Chess Set - Knight White.png");
-    pieceTextures[(size_t) PieceType::QUEEN_TYPE][0] = IMG_LoadTexture(r, "Chess Set - Queen Black.png");
-    pieceTextures[(size_t) PieceType::QUEEN_TYPE][1] = IMG_LoadTexture(r, "Chess Set - Queen White.png");
-    pieceTextures[(size_t)PieceType::KING_TYPE][0] = IMG_LoadTexture(r, "Chess Set - King Black.png");
-    pieceTextures[(size_t)PieceType::KING_TYPE][1] = IMG_LoadTexture(r, "Chess Set - King Black.png");
-
+    loadPieces();
     size_t loc;
     for (size_t file = 0; file < 8; ++file) {
         for (size_t rank = 0; rank < 8; ++rank) {
