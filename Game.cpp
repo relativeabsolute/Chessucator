@@ -111,18 +111,24 @@ std::ostream &Chess::operator <<(std::ostream& stream, const Game& p) {
 }
 
 void Game::loadPieces() {
-    pieceTextures[(size_t) PieceType::PAWN_TYPE][0] = IMG_LoadTexture(renderer, "Chess Set - Pawn Black.png");
-    pieceTextures[(size_t) PieceType::PAWN_TYPE][1] = IMG_LoadTexture(renderer, "Chess Set - Pawn White.png");
-    pieceTextures[(size_t) PieceType::BISHOP_TYPE][0] = IMG_LoadTexture(renderer, "Chess Set - Bishop Black.png");
-    pieceTextures[(size_t) PieceType::BISHOP_TYPE][1] = IMG_LoadTexture(renderer, "Chess Set - Bishop White.png");
-    pieceTextures[(size_t) PieceType::ROOK_TYPE][0] = IMG_LoadTexture(renderer, "Chess Set - Rook Black.png");
-    pieceTextures[(size_t) PieceType::ROOK_TYPE][1] = IMG_LoadTexture(renderer, "Chess Set - Rook White.png");
-    pieceTextures[(size_t) PieceType::KNIGHT_TYPE][0] = IMG_LoadTexture(renderer, "Chess Set - Knight Black.png");
-    pieceTextures[(size_t) PieceType::KNIGHT_TYPE][1] = IMG_LoadTexture(renderer, "Chess Set - Knight White.png");
-    pieceTextures[(size_t) PieceType::QUEEN_TYPE][0] = IMG_LoadTexture(renderer, "Chess Set - Queen Black.png");
-    pieceTextures[(size_t) PieceType::QUEEN_TYPE][1] = IMG_LoadTexture(renderer, "Chess Set - Queen White.png");
-    pieceTextures[(size_t)PieceType::KING_TYPE][0] = IMG_LoadTexture(renderer, "Chess Set - King Black.png");
-    pieceTextures[(size_t)PieceType::KING_TYPE][1] = IMG_LoadTexture(renderer, "Chess Set - King Black.png");
+    const std::vector<std::string> chessPieceNames = {
+        "Pawn", "Bishop", "Rook", "Knight", "Queen", "King"
+    };
+    SDL_Texture *tmp = nullptr;
+    for (auto i : chessPieceNames) {
+        IMG_LoadTexture(renderer, "Chess Set - " + i + " Black.png");
+        if (tmp == nullptr) {
+            // default to just the letter here
+        } else {
+            pieceTextures[(size_t) PieceType::PAWN_TYPE][0] = tmp;
+        }
+        IMG_LoadTexture(renderer, "Chess Set - " + i + " White.png");
+        if (tmp == nullptr) {
+            // default to just the letter here
+        } else {
+            pieceTextures[(size_t) PieceType::PAWN_TYPE][1] = tmp;
+        }
+    }
 }
 
 Game::Game(SDL_Renderer *r)
