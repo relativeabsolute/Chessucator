@@ -114,15 +114,32 @@ void Game::loadPieces() {
     const std::vector<std::string> chessPieceNames = {
         "Pawn", "Bishop", "Rook", "Knight", "Queen", "King"
     };
+    const std::string chessSetString = {"Chess Set - "};
+    const std::string blackString = {" Black.png"};
+    const std::string whiteString = {" White.png"};
+    const char *ptr;
     SDL_Texture *tmp = nullptr;
+    Logger *l = Logger::getInstance();
     for (auto i : chessPieceNames) {
-        IMG_LoadTexture(renderer, "Chess Set - " + i + " Black.png");
+        ptr = (chessSetString + i + blackString).c_str();
+        if (ptr == nullptr) {
+            l->output << "Bad pointer." << std::endl;
+        } else {
+            l->output << "Loading black " << i << " from " << ptr << std::endl;
+        }
+        IMG_LoadTexture(renderer, ptr);
         if (tmp == nullptr) {
             // default to just the letter here
         } else {
             pieceTextures[(size_t) PieceType::PAWN_TYPE][0] = tmp;
         }
-        IMG_LoadTexture(renderer, "Chess Set - " + i + " White.png");
+        ptr = (chessSetString + i + whiteString).c_str();
+        if (ptr == nullptr) {
+            l->output << "Bad pointer." << std::endl;
+        } else {
+            l->output << "Loading white " << i << " from " << ptr << std::endl;
+        }
+        IMG_LoadTexture(renderer, ptr);
         if (tmp == nullptr) {
             // default to just the letter here
         } else {
