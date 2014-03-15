@@ -1,5 +1,5 @@
 /*
-Copyright (c) 2013 Johan Burke
+Copyright (c) 2014 Johan Burke
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -18,12 +18,6 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
- */
-
-/* 
-File:   Game.cpp
-Author: johan
-Created on November 3, 2013, 5:26 PM
  */
 
 #include "Chess.hpp"
@@ -129,6 +123,8 @@ void Game::loadPieces() {
         }
         IMG_LoadTexture(renderer, ptr);
         if (tmp == nullptr) {
+            l->output << "Loading of " << ptr << " unsuccessful." << std::endl <<
+                    "Error message: " << IMG_GetError() << std::endl;
             // default to just the letter here
         } else {
             pieceTextures[(size_t) PieceType::PAWN_TYPE][0] = tmp;
@@ -141,6 +137,8 @@ void Game::loadPieces() {
         }
         IMG_LoadTexture(renderer, ptr);
         if (tmp == nullptr) {
+            l->output << "Loading of " << ptr << " unsuccessful." << std::endl <<
+                    "Error message: " << IMG_GetError() << std::endl;
             // default to just the letter here
         } else {
             pieceTextures[(size_t) PieceType::PAWN_TYPE][1] = tmp;

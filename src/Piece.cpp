@@ -1,5 +1,5 @@
 /*
-Copyright (c) 2013 Johan Burke
+Copyright (c) 2014 Johan Burke
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -20,20 +20,50 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
  */
 
-/* 
-File:   GraphicsUtils.hpp
-Author: johan
-Created on December 17, 2013, 9:44 PM
- */
+#include "Chess.hpp"
+#include "Pieces.hpp"
+#include "Logger.hpp"
 
-#ifndef GRAPHICSUTILS_HPP
-#define	GRAPHICSUTILS_HPP
+using namespace Chess;
 
-#include <SDL2/SDL.h>
-
-namespace Chess {
-    void SDL_RenderDrawRectStroke(SDL_Renderer *renderer, const SDL_Rect *rect, int strokeSize);
+Piece::Piece(Game *game, const BoardLocation &location, bool color) {
+    this->game = game;
+    this->loc = location;
+    this->color = color;
 }
 
-#endif	/* GRAPHICSUTILS_HPP */
+Piece::~Piece() {
 
+}
+
+void Piece::makeMove(const BoardLocation& newLoc) {
+    game->makeMove(this, newLoc);
+}
+
+void Piece::setLocation(const BoardLocation& loc) {
+    this->loc = loc;
+}
+
+BoardLocation Piece::getLocation() const {
+    return loc;
+}
+
+bool Piece::getColor() const {
+    return color;
+}
+
+bool Piece::hasBeenCaptured() const {
+    return captured;
+}
+
+void Piece::setCaptured(bool nowCaptured) {
+    captured = nowCaptured;
+}
+
+bool Piece::hasJustMoved() const {
+    return justMoved;
+}
+
+bool Piece::hasMoved() const {
+    return moved;
+}

@@ -1,5 +1,5 @@
 /*
-Copyright (c) 2013 Johan Burke
+Copyright (c) 2014 Johan Burke
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -20,56 +20,21 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
  */
 
-/* 
-File:   Piece.cpp
-Author: johan
-Created on November 2, 2013, 4:06 PM
- */
-
-#include "Chess.hpp"
-#include "Pieces.hpp"
 #include "Logger.hpp"
 
 using namespace Chess;
 
-Piece::Piece(Game *game, const BoardLocation &location, bool color) {
-    this->game = game;
-    this->loc = location;
-    this->color = color;
+Logger::Logger() {
+    
 }
 
-Piece::~Piece() {
-
+void Logger::open(const std::string& filename) {
+    output.open(filename);
 }
 
-void Piece::makeMove(const BoardLocation& newLoc) {
-    game->makeMove(this, newLoc);
-}
-
-void Piece::setLocation(const BoardLocation& loc) {
-    this->loc = loc;
-}
-
-BoardLocation Piece::getLocation() const {
-    return loc;
-}
-
-bool Piece::getColor() const {
-    return color;
-}
-
-bool Piece::hasBeenCaptured() const {
-    return captured;
-}
-
-void Piece::setCaptured(bool nowCaptured) {
-    captured = nowCaptured;
-}
-
-bool Piece::hasJustMoved() const {
-    return justMoved;
-}
-
-bool Piece::hasMoved() const {
-    return moved;
+Logger::~Logger() {
+    if (output.is_open()) {
+        output.flush();
+        output.close();
+    }
 }

@@ -1,5 +1,5 @@
 /*
-Copyright (c) 2013 Johan Burke
+Copyright (c) 2014 Johan Burke
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -18,19 +18,15 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
-*/
+ */
 
-/* 
-File:   Main.cpp
-Author: johan
-Created on November 1, 2013, 7:12 AM
-*/
+#include "Chess.hpp"
 
-#include "ChessWindow.hpp"
+namespace Chess {
 
-using namespace Chess;
-
-int main(int argc, char **argv) {
-    ChessWindow win;
-    return win.execute();
+    class StandardGame : public Game {
+    public:
+        StandardGame(SDL_Renderer *r);
+        void initializeBoard();
+    };
 }

@@ -1,5 +1,5 @@
 /*
-Copyright (c) 2013 Johan Burke
+Copyright (c) 2014 Johan Burke
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -20,19 +20,14 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
  */
 
-/* 
-File:   Games.hpp
-Author: johan
-Created on November 7, 2013, 8:51 PM
- */
+#ifndef GRAPHICSUTILS_HPP
+#define	GRAPHICSUTILS_HPP
 
-#include "Chess.hpp"
+#include <SDL2/SDL.h>
 
 namespace Chess {
-
-    class StandardGame : public Game {
-    public:
-        StandardGame(SDL_Renderer *r);
-        void initializeBoard();
-    };
+    void SDL_RenderDrawRectStroke(SDL_Renderer *renderer, const SDL_Rect *rect, int strokeSize);
 }
+
+#endif	/* GRAPHICSUTILS_HPP */
+

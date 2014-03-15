@@ -1,5 +1,5 @@
 /*
-Copyright (c) 2013 Johan Burke
+Copyright (c) 2014 Johan Burke
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -20,37 +20,21 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
  */
 
-/* 
-File:   Singleton.hpp
-Author: johan
-Created on November 30, 2013, 12:36 PM
- */
+#include "GraphicsUtils.hpp"
 
-#ifndef SINGLETON_HPP
-#define	SINGLETON_HPP
+using namespace Chess;
 
-#include <memory>
-
-namespace Chess {
-
-    template<typename T>
-    class Singleton {
-        static T *instance;
-    public:
-        static void destroy() {
-            delete instance;
-        }
-        static T *getInstance() {
-            if (instance == nullptr) {
-                instance = new T();
-            }
-            return instance;
-        }
-    };
+void Chess::SDL_RenderDrawRectStroke(SDL_Renderer* renderer, const SDL_Rect* rect, int strokeSize) {
+    SDL_Rect r;
+    r.x = rect->x;
+    r.y = rect->y;
+    r.w = rect->w;
+    r.h = rect->h;
+    for (int i = 0; i < strokeSize; ++i) {
+        SDL_RenderDrawRect(renderer, &r);
+        ++r.x;
+        ++r.y;
+        r.w -= 2;  // this is to take into account the fact that x is increasing
+        r.h -= 2;  // same as above
+    }
 }
-
-template<typename T>
-T *Chess::Singleton<T>::instance = nullptr;
-
-#endif	/* SINGLETON_HPP */
-

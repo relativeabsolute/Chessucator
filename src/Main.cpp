@@ -1,5 +1,5 @@
 /*
-Copyright (c) 2013 Johan Burke
+Copyright (c) 2014 Johan Burke
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -18,29 +18,13 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
- */
+*/
 
-/* 
-File:   Logger.hpp
-Author: johan
-Created on November 30, 2013, 12:34 PM
- */
+#include "ChessWindow.hpp"
 
-#ifndef LOGGER_HPP
-#define	LOGGER_HPP
+using namespace Chess;
 
-#include "Singleton.hpp"
-#include <fstream>
-#include <string>
-
-namespace Chess {
-    struct Logger : public Singleton<Logger> {
-        Logger();
-        void open(const std::string &filename);
-        ~Logger();
-        std::ofstream output;
-    };
+int main(int argc, char **argv) {
+    ChessWindow win;
+    return win.execute();
 }
-
-#endif	/* LOGGER_HPP */
-

@@ -1,5 +1,5 @@
 /*
-Copyright (c) 2013 Johan Burke
+Copyright (c) 2014 Johan Burke
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -20,27 +20,31 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
  */
 
-/* 
-File:   Logger.cpp
-Author: johan
-Created on November 30, 2013, 12:40 PM
- */
+#ifndef SINGLETON_HPP
+#define	SINGLETON_HPP
 
-#include "Logger.hpp"
+#include <memory>
 
-using namespace Chess;
+namespace Chess {
 
-Logger::Logger() {
-    
+    template<typename T>
+    class Singleton {
+        static T *instance;
+    public:
+        static void destroy() {
+            delete instance;
+        }
+        static T *getInstance() {
+            if (instance == nullptr) {
+                instance = new T();
+            }
+            return instance;
+        }
+    };
 }
 
-void Logger::open(const std::string& filename) {
-    output.open(filename);
-}
+template<typename T>
+T *Chess::Singleton<T>::instance = nullptr;
 
-Logger::~Logger() {
-    if (output.is_open()) {
-        output.flush();
-        output.close();
-    }
-}
+#endif	/* SINGLETON_HPP */
+
