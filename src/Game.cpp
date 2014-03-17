@@ -104,46 +104,32 @@ std::ostream &Chess::operator <<(std::ostream& stream, const Game& p) {
     return stream;
 }
 
-void Game::loadPieces() {
-    const std::vector<std::string> chessPieceNames = {
-        "Pawn", "Bishop", "Rook", "Knight", "Queen", "King"
-    };
-    const std::string chessSetString = {"Chess Set - "};
-    const std::string blackString = {" Black.png"};
-    const std::string whiteString = {" White.png"};
-    const char *ptr;
-    SDL_Texture *tmp = nullptr;
+void Game::loadPiece(const char *filename, PieceType type, bool color) {
+    // SDL_img refuses to play nice with std::string
     Logger *l = Logger::getInstance();
-    for (auto i : chessPieceNames) {
-        ptr = (chessSetString + i + blackString).c_str();
-        if (ptr == nullptr) {
-            l->output << "Bad pointer." << std::endl;
-        } else {
-            l->output << "Loading black " << i << " from " << ptr << std::endl;
-        }
-        IMG_LoadTexture(renderer, ptr);
-        if (tmp == nullptr) {
-            l->output << "Loading of " << ptr << " unsuccessful." << std::endl <<
-                    "Error message: " << IMG_GetError() << std::endl;
-            // default to just the letter here
-        } else {
-            pieceTextures[(size_t) PieceType::PAWN_TYPE][0] = tmp;
-        }
-        ptr = (chessSetString + i + whiteString).c_str();
-        if (ptr == nullptr) {
-            l->output << "Bad pointer." << std::endl;
-        } else {
-            l->output << "Loading white " << i << " from " << ptr << std::endl;
-        }
-        IMG_LoadTexture(renderer, ptr);
-        if (tmp == nullptr) {
-            l->output << "Loading of " << ptr << " unsuccessful." << std::endl <<
-                    "Error message: " << IMG_GetError() << std::endl;
-            // default to just the letter here
-        } else {
-            pieceTextures[(size_t) PieceType::PAWN_TYPE][1] = tmp;
-        }
+    SDL_Texture *tmp = IMG_LoadTexture(renderer, filename);
+    if (tmp != nullptr) {
+        pieceTextures[(size_t)type][(size_t)color] = tmp;
+    } else {
+        pieceTextures[(size_t)type][(size_t)color] = nullptr;
+        l->output << "Could not load " << filename << std::endl;
+        l->output << "Error message: " << IMG_GetError();
     }
+}
+
+void Game::loadPieces() {
+    loadPiece("Chess Set - Pawn Black.png", PieceType::PAWN_TYPE, false);
+    loadPiece("Chess Set - Pawn White.png", PieceType::PAWN_TYPE, true);
+    loadPiece("Chess Set - Knight Black.png", PieceType::KNIGHT_TYPE, false);
+    loadPiece("Chess Set - Knight White.png", PieceType::KNIGHT_TYPE, true);
+    loadPiece("Chess Set - Bishop Black.png", PieceType::BISHOP_TYPE, false);
+    loadPiece("Chess Set - Bishop White.png", PieceType::BISHOP_TYPE, true);
+    loadPiece("Chess Set - Rook Black.png", PieceType::ROOK_TYPE, false);
+    loadPiece("Chess Set - Rook White.png", PieceType::ROOK_TYPE, true);
+    loadPiece("Chess Set - Queen Black.png", PieceType::QUEEN_TYPE, false);
+    loadPiece("Chess Set - Queen White.png", PieceType::QUEEN_TYPE, true);
+    loadPiece("Chess Set - King Black.png", PieceType::KING_TYPE, false);
+    loadPiece("Chess Set - King White.png", PieceType::KING_TYPE, true);
 }
 
 Game::Game(SDL_Renderer *r)
@@ -329,10 +315,12 @@ void Game::renderPieces() {
     rect.w = SQUARE_WIDTH;
     rect.h = SQUARE_WIDTH;
     for (Piece *p : updatePieces) {
-        rect.x = p->getLocation().file * SQUARE_WIDTH;
-        rect.y = BoardLocation::boardCoordToWindowYCoord(p->getLocation().rank);
-        SDL_RenderCopy(renderer, pieceTextures[(size_t) p->getType()][(size_t) p->getColor()],
+        if (p != nullptr) {
+            rect.x = p->getLocation().file * SQUARE_WIDTH;
+            rect.y = BoardLocation::boardCoordToWindowYCoord(p->getLocation().rank);
+            SDL_RenderCopy(renderer, pieceTextures[(size_t) p->getType()][(size_t) p->getColor()],
                 nullptr, &rect);
+        }
     }
     updatePieces.clear();
 }

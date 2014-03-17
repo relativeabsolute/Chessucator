@@ -122,6 +122,7 @@ namespace Chess {
         void addPiece(Piece *p, size_t index);
         void updateHighlightVector();
         void loadPieces();
+        void loadPiece(const char *filename, PieceType type, bool color);
 
         /*
         This array has a very specific order:
