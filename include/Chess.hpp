@@ -33,6 +33,11 @@ constexpr size_t squareSize = 64;
 constexpr size_t numPieces = 32;
 
 namespace Chess {
+    struct BoardLocation;
+
+    typedef std::vector<BoardLocation> location_vector_type;
+    typedef location_vector_type::iterator location_iterator_type;
+
     class Piece;
     using pieces_vector_type = std::vector<Piece*>;
     typedef pieces_vector_type::iterator pieces_iterator_type;
@@ -44,6 +49,8 @@ namespace Chess {
         bool highlighted;
         
         size_t getRealRank() const;
+
+        location_vector_type getAdjacentLocations() const;
         
         BoardLocation();
         
@@ -63,9 +70,6 @@ namespace Chess {
     };
     
     std::ostream &operator<<(std::ostream &stream, const BoardLocation &loc);
-    
-    typedef std::vector<BoardLocation> location_vector_type;
-    typedef location_vector_type::iterator location_iterator_type;
 
     struct Move {
         bool capture;
@@ -89,12 +93,14 @@ namespace Chess {
         Game(SDL_Renderer *r);
         virtual ~Game();
         
-        std::vector<BoardLocation> getOccupiedLocations() const;
+        location_vector_type getOccupiedLocations() const;
         BoardLocation getLocation(int file, int rank) const;
         Piece *getPieceAt(int file, int rank) const;
+        Piece *getPieceAt(const BoardLocation &loc) const;
         bool currentPlayerInCheck() const;
         void makeMove(Piece *piece, const BoardLocation &newLoc);        
         void removePieceAt(const BoardLocation &newLoc);
+
         
         /**
          * Highlight the given piece's legal moves, one of which can then be clicked

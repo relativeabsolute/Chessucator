@@ -73,4 +73,12 @@ void StandardGame::initializeBoard() {
         loc.occupyingPiece = p;
         addPiece(p, i + 28);
     }
+    for (size_t i = 0; i < 2; ++i) {
+        color = i % 2 == 0;
+        loc.file = 4;
+        loc.rank = color ? 0 : 7;
+        p = new King(this, loc, color);
+        loc.occupyingPiece = p;
+        addPiece(p, i + 30);
+    }
 }

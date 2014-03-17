@@ -31,6 +31,52 @@ THE SOFTWARE.
 
 using namespace Chess;
 
+location_vector_type BoardLocation::getAdjacentLocations() const {
+    location_vector_type result;
+    BoardLocation tmp;
+    tmp.file = file - 1;
+    tmp.rank = rank - 1;
+    if (tmp.inBounds()) {
+        result.push_back(tmp);
+    }
+    tmp.file = file - 1;
+    tmp.rank = rank;
+    if (tmp.inBounds()) {
+        result.push_back(tmp);
+    }
+    tmp.file = file - 1;
+    tmp.rank = rank + 1;
+    if (tmp.inBounds()) {
+        result.push_back(tmp);
+    }
+    tmp.file = file;
+    tmp.rank = rank - 1;
+    if (tmp.inBounds()) {
+        result.push_back(tmp);
+    }
+    tmp.file = file;
+    tmp.rank = rank + 1;
+    if (tmp.inBounds()) {
+        result.push_back(tmp);
+    }
+    tmp.file = file + 1;
+    tmp.rank = rank - 1;
+    if (tmp.inBounds()) {
+        result.push_back(tmp);
+    }
+    tmp.file = file + 1;
+    tmp.rank = rank;
+    if (tmp.inBounds()) {
+        result.push_back(tmp);
+    }
+    tmp.file = file + 1;
+    tmp.rank = rank + 1;
+    if (tmp.inBounds()) {
+        result.push_back(tmp);
+    }
+    return result;
+}
+
 bool BoardLocation::operator==(const BoardLocation &other) const {
     return file == other.file && rank == other.rank;
 }
@@ -195,8 +241,12 @@ std::vector<BoardLocation> Game::getOccupiedLocations() const {
     return result;
 }
 
+Piece *Game::getPieceAt(const BoardLocation &loc) const {
+    return getPieceAt(loc.file, loc.rank);
+}
+
 Piece *Game::getPieceAt(int file, int rank) const {
-    if (file < 0 || rank < 0) {
+    if (file < 0 || rank < 0 || file > 7 || rank > 7) {
         return nullptr;
     }
     return locations[getArrayLocation(file, rank)].occupyingPiece;

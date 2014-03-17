@@ -31,7 +31,6 @@ namespace Chess {
         PieceType getType() const;
         bool isCheck(const BoardLocation &loc) const;
         virtual void makeMove(const BoardLocation& loc);
-
     };
 
     class Knight : public Piece {
@@ -71,5 +70,13 @@ namespace Chess {
         location_vector_type checkRank(bool dir) const;
         location_vector_type checkFile(bool dir) const;
         location_vector_type checkDiagonals() const;
+    };
+
+    class King : public Piece {
+    public:
+        King(Game *game, const BoardLocation &loc, bool color);
+        location_vector_type getLegalMoves() const;
+        PieceType getType() const;
+        bool isCheck(const BoardLocation &loc) const;
     };
 }
