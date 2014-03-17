@@ -62,11 +62,11 @@ std::ostream &Chess::operator <<(std::ostream& stream, const Piece& p) {
 }
 
 size_t BoardLocation::boardCoordToWindowYCoord(size_t boardCoord) {
-    return (SQUARE_WIDTH * 7) - (boardCoord * SQUARE_WIDTH);
+    return (squareSize * 7) - (boardCoord * squareSize);
 }
 
 size_t BoardLocation::windowYCoordToBoardCoord(size_t windowCoord) {
-    return ((SQUARE_WIDTH * 8) - windowCoord) / SQUARE_WIDTH;
+    return ((squareSize * 8) - windowCoord) / squareSize;
 }
 
 std::string BoardLocation::asString() const {
@@ -109,11 +109,12 @@ void Game::loadPiece(const char *filename, PieceType type, bool color) {
     Logger *l = Logger::getInstance();
     SDL_Texture *tmp = IMG_LoadTexture(renderer, filename);
     if (tmp != nullptr) {
+        l->output << filename << " loaded successfully." << std::endl;
         pieceTextures[(size_t)type][(size_t)color] = tmp;
     } else {
         pieceTextures[(size_t)type][(size_t)color] = nullptr;
         l->output << "Could not load " << filename << std::endl;
-        l->output << "Error message: " << IMG_GetError();
+        l->output << "Error message: " << IMG_GetError() << std::endl;
     }
 }
 
@@ -149,7 +150,7 @@ Game::Game(SDL_Renderer *r)
     highlightColor.r = 0;
     highlightColor.g = 122;
     highlightColor.b = 0;
-    for (size_t i = 0; i < NUM_PIECES; ++i) {
+    for (size_t i = 0; i < numPieces; ++i) {
         pieces[i] = nullptr;
     }
     for (size_t i = 0; i < 8; ++i) {
@@ -162,7 +163,7 @@ Game::Game(SDL_Renderer *r)
 }
 
 Game::~Game() {
-    for (size_t i = 0; i < NUM_PIECES; ++i) {
+    for (size_t i = 0; i < numPieces; ++i) {
         if (pieces[i] != nullptr) {
             delete pieces[i];
             pieces[i] = nullptr;
@@ -286,11 +287,11 @@ void Game::highlightLegalMoves(const Piece* piece) {
 
 void Game::renderLocations() {
     SDL_Rect rect;
-    rect.w = SQUARE_WIDTH;
-    rect.h = SQUARE_WIDTH;
+    rect.w = squareSize;
+    rect.h = squareSize;
     BoardLocation loc;
     for (BoardLocation loc : updateLocations) {
-        rect.x = loc.file * SQUARE_WIDTH;
+        rect.x = loc.file * squareSize;
         rect.y = BoardLocation::boardCoordToWindowYCoord(loc.rank);
         if (loc.highlighted) {
             SDL_SetRenderDrawColor(renderer, highlightColor.r, highlightColor.g,
@@ -312,11 +313,11 @@ void Game::renderLocations() {
 
 void Game::renderPieces() {
     SDL_Rect rect;
-    rect.w = SQUARE_WIDTH;
-    rect.h = SQUARE_WIDTH;
+    rect.w = squareSize;
+    rect.h = squareSize;
     for (Piece *p : updatePieces) {
         if (p != nullptr) {
-            rect.x = p->getLocation().file * SQUARE_WIDTH;
+            rect.x = p->getLocation().file * squareSize;
             rect.y = BoardLocation::boardCoordToWindowYCoord(p->getLocation().rank);
             SDL_RenderCopy(renderer, pieceTextures[(size_t) p->getType()][(size_t) p->getColor()],
                 nullptr, &rect);

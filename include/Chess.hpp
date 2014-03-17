@@ -28,8 +28,9 @@ THE SOFTWARE.
 #include <string>
 #include <iostream>
 
-#define SQUARE_WIDTH 64
-#define NUM_PIECES 32
+// the length of one side of a square
+constexpr size_t squareSize = 64;
+constexpr size_t numPieces = 32;
 
 namespace Chess {
     class Piece;

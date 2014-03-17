@@ -77,7 +77,7 @@ void ChessWindow::handleEvent(SDL_Event* evt) {
 }
 
 BoardLocation ChessWindow::getLocationFromCoordinates(int x, int y) const {
-    int file = x / SQUARE_WIDTH;
+    int file = x / squareSize;
     int rank = BoardLocation::windowYCoordToBoardCoord(y);
     return game->getLocation(file, rank);
 }
@@ -85,7 +85,7 @@ BoardLocation ChessWindow::getLocationFromCoordinates(int x, int y) const {
 void ChessWindow::handleClick(SDL_MouseButtonEvent* evt) {
     l->output << "SDL_MOUSEBUTTONDOWN event received.  X = " <<
             evt->x << " Y = " << evt->y << std::endl;
-    if (evt->x <= SQUARE_WIDTH * 8 && evt->y <= SQUARE_WIDTH * 8) {
+    if (evt->x <= squareSize * 8 && evt->y <= squareSize * 8) {
         BoardLocation loc = getLocationFromCoordinates(evt->x, evt->y);
         l->output << "Mouse clicked at " << loc << std::endl;
         Piece *p = game->getPieceAt(loc.file, loc.rank);
